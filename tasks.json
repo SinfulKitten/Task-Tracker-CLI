@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": 1,
+    "description": "take out trash",
+    "completed": true,
+    "dateCreated": "2025-03-24T14:35:50.333Z"
+  }
+]
