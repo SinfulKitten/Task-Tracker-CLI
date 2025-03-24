@@ -4,5 +4,23 @@
     "description": "take out trash",
     "completed": true,
     "dateCreated": "2025-03-24T14:35:50.333Z"
+  },
+  {
+    "id": 2,
+    "description": "complete this project",
+    "completed": false,
+    "dateCreated": "2025-03-24T14:44:28.555Z"
+  },
+  {
+    "id": 3,
+    "description": "end the world",
+    "completed": false,
+    "dateCreated": "2025-03-24T14:55:50.837Z"
+  },
+  {
+    "id": 4,
+    "description": "kill raccoons",
+    "completed": false,
+    "dateCreated": "2025-03-24T14:57:56.967Z"
   }
 ]
