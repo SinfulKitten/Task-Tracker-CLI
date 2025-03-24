@@ -8,13 +8,21 @@
   {
     "id": 2,
     "description": "complete this project",
-    "completed": false,
+    "completed": true,
     "dateCreated": "2025-03-24T14:44:28.555Z"
   },
   {
     "id": 4,
     "description": "kill raccoons",
     "completed": false,
-    "dateCreated": "2025-03-24T14:57:56.967Z"
+    "dateCreated": "2025-03-24T14:57:56.967Z",
+    "status": "in progress"
+  },
+  {
+    "id": 4,
+    "description": "finish this project",
+    "completed": false,
+    "status": "not started",
+    "dateCreated": "2025-03-24T15:14:56.812Z"
   }
 ]

@@ -27,6 +27,9 @@ if (args.length > 0) {
 
 function handleCommand(command, args) {
     switch(command) {
+        case 'start':
+            listTasksToStart();
+            break;
         case 'add':
             const description = args.slice(1).join(' ');
             if (description) {
@@ -57,10 +60,20 @@ function handleCommand(command, args) {
             listCompletedTasks();
             waitForUserInput();
             break;
+        case 'listinprogress':
+                listInProgressTasks();
+                waitForUserInput();
+                break;
+        case 'listincomplete':
+                    listIncompleteTasks();
+                    waitForUserInput();
+                    break;
 
         default:
             console.log(`Unknown command: ${command}`);
             waitForUserInput();
+            
+        
     }
 }
 
@@ -71,6 +84,7 @@ function addTask(description) {
         id: tasks.length + 1,
         description: description,
         completed: false,
+        status: 'not started',  
         dateCreated: new Date().toISOString()
     };
     tasks.push(newTask);
@@ -189,5 +203,84 @@ function listCompletedTasks() {
     console.log('\nCompleted Tasks:');
     completedTasks.forEach(task => {
         console.log(`[${task.id}] ${task.description} - ✅ Completed`);
+    });
+}
+
+
+function listIncompleteTasks() {
+    const tasks = JSON.parse(readFileSync(path));
+
+    const incompleteTasks = tasks.filter(task => !task.completed);
+
+    if (incompleteTasks.length === 0) {
+        console.log('No incomplete tasks found.');
+        return waitForUserInput();
+    }
+
+    console.log('\nIncomplete Tasks:');
+    incompleteTasks.forEach(task => {
+        console.log(`[${task.id}] ${task.description} - ❌ Not Completed`);
+    });
+}
+
+
+function listInProgressTasks() {
+    const tasks = JSON.parse(readFileSync(path));
+
+    const inProgressTasks = tasks.filter(task => task.status === 'in progress');
+
+    if (inProgressTasks.length === 0) {
+        console.log('No tasks are in progress.');
+        return waitForUserInput();
+    }
+
+    console.log('\nIn Progress Tasks:');
+    inProgressTasks.forEach(task => {
+        console.log(`[${task.id}] ${task.description} - 🟡 In Progress`);
+    });
+}
+
+function listTasksToStart() {
+    const tasks = JSON.parse(readFileSync(path));
+
+    // Filter tasks that are not yet started or already in progress
+    const tasksToStart = tasks.filter(task => task.status === 'not started' || task.status === 'in progress');
+
+    if (tasksToStart.length === 0) {
+        console.log('No tasks available to start.');
+        return waitForUserInput();
+    }
+
+    console.log('\nAvailable tasks to start:');
+    tasksToStart.forEach(task => {
+        console.log(`[${task.id}] ${task.description} - ${task.status === 'in progress' ? '🟡 In Progress' : '🔲 Not Started'}`);
+    });
+
+    // Prompt the user to select a task ID to start
+    rl.question('Enter the task ID to start: ', (taskIdInput) => {
+        const taskId = parseInt(taskIdInput);
+
+        if (isNaN(taskId)) {
+            console.log('Invalid task ID. Please enter a valid number.');
+            return listTasksToStart();
+        }
+
+        const task = tasks.find(t => t.id === taskId);
+
+        if (!task) {
+            console.log('Task not found.');
+            return listTasksToStart();
+        }
+
+        if (task.status === 'completed') {
+            console.log('This task is already completed.');
+            return listTasksToStart();
+        }
+
+        // Mark the task as in progress
+        task.status = 'in progress';
+        writeFileSync(path, JSON.stringify(tasks, null, 2));
+        console.log('Task is now in progress!');
+        waitForUserInput();
     });
 }
