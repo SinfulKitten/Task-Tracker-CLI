@@ -40,6 +40,9 @@ function handleCommand(command, args) {
         case 'edit':
             editTask();
             break;
+        case 'delete':
+            deleteTask();
+                break;
 
         case 'list':
             listCommands();
@@ -128,5 +131,42 @@ function waitForUserInput() {
         }
 
         handleCommand(command, args);
+    });
+}
+
+function deleteTask() {
+    const tasks = JSON.parse(readFileSync(path));
+
+    if (tasks.length === 0) {
+        console.log('No tasks available to delete.');
+        return waitForUserInput();
+    }
+
+    console.log('\nAvailable tasks to delete:');
+    tasks.forEach(task => {
+        console.log(`[${task.id}] ${task.description} - ${task.completed ? '✅ Completed' : '❌ Not Completed'}`);
+    });
+
+    rl.question('\nEnter the task ID to delete: ', (taskIdInput) => {
+        const taskId = parseInt(taskIdInput.trim());
+
+        if (!taskId || !tasks.some(t => t.id === taskId)) {
+            console.log('Invalid task ID. Please try again.');
+            return waitForUserInput();
+        }
+
+        const task = tasks.find(t => t.id === taskId);
+
+        rl.question(`Are you sure you want to delete the task "${task.description}"? (yes/no): `, (answer) => {
+            if (answer.toLowerCase() === 'yes') {
+                // Remove the task from the tasks array
+                const updatedTasks = tasks.filter(t => t.id !== taskId);
+                writeFileSync(path, JSON.stringify(updatedTasks, null, 2));
+                console.log('✅ Task deleted successfully!');
+            } else {
+                console.log('Task deletion canceled.');
+            }
+            waitForUserInput();
+        });
     });
 }
