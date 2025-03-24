@@ -135,7 +135,12 @@ function listCommands() {
     console.log('  add <task description>  - Add a new task');
     console.log('  edit <taskId>           - Edit an existing task');
     console.log('  list                    - List all available commands');
-    console.log('  yeet                    - Exit the CLI');
+    console.log('  listdone                - List all completed tasks');
+    console.log('  listinprogress          - List all tasks in progress');      
+    console.log('  listincomplete          - List all incomplete tasks');
+    console.log('  start                   - Start a task');
+    console.log('  delete                  - Delete a task');
+
 }
 
 function waitForUserInput() {
