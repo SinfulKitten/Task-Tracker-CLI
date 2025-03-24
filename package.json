@@ -1,0 +1,23 @@
+{
+  "name": "task-tracker-cli",
+  "version": "1.0.0",
+  "description": "A CLI program that keeps track of your tasks",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SinfulKitten/Task-Tracker-CLI.git"
+  },
+  "keywords": [
+    "CLI",
+    "Node"
+  ],
+  "author": "Kaiyana Austin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SinfulKitten/Task-Tracker-CLI/issues"
+  },
+  "homepage": "https://github.com/SinfulKitten/Task-Tracker-CLI#readme"
+}
