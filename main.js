@@ -23,15 +23,22 @@ if (!fs.existsSync(path)) {
     waitForUserInput();
 }
 
-//handles user input with case sensitivity
+//main sorting function for the user input , converts user input to lowercase and calls relevant function
 function waitForUserInput() {
     rl.question('Enter a command: ', (command) => {
-        if (command.toLowerCase() === 'yeet') {
-            console.log('Goodbye!');
-            rl.close();
-        } else {
-            console.log(`You entered: ${command}`);
-            waitForUserInput(); // Wait for the next command
+        const input = command.toLowerCase();
+        switch(input) {
+            case 'yeet':
+                console.log('Goodbye!');
+                rl.close();
+                break;
+            case 'list':
+                listCommands();
+                waitForUserInput();
+                break;
+            default:
+                console.log(`Unknown command: ${command}`);
+                waitForUserInput();
         }
     });
 }
@@ -40,3 +47,9 @@ function waitForUserInput() {
 rl.on("error", (err) => {
     console.error("Error:", err);
 });
+
+function listCommands() {
+    console.log('Available commands:');
+    console.log('list - List all available commands');
+    console.log('yeet - Exit the CLI');
+}
