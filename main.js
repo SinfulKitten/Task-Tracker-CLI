@@ -53,6 +53,10 @@ function handleCommand(command, args) {
             console.log('Goodbye!');
             rl.close();
             break;
+        case 'listdone':
+            listCompletedTasks();
+            waitForUserInput();
+            break;
 
         default:
             console.log(`Unknown command: ${command}`);
@@ -168,5 +172,22 @@ function deleteTask() {
             }
             waitForUserInput();
         });
+    });
+}
+
+
+function listCompletedTasks() {
+    const tasks = JSON.parse(readFileSync(path));
+
+    const completedTasks = tasks.filter(task => task.completed);
+
+    if (completedTasks.length === 0) {
+        console.log('No completed tasks found.');
+        return waitForUserInput();
+    }
+
+    console.log('\nCompleted Tasks:');
+    completedTasks.forEach(task => {
+        console.log(`[${task.id}] ${task.description} - ✅ Completed`);
     });
 }
